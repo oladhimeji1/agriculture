@@ -1,35 +1,81 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
+import { View } from 'react-native';
+import { colors } from '../../constants/colors';
+import { typography } from '../../constants/typography';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.iconInactive,
+        tabBarStyle: {
+          backgroundColor: colors.white,
+          borderTopColor: colors.borderLight,
+          borderTopWidth: 1,
+          paddingTop: 8,
+          paddingBottom: 8,
+          height: 60,
+        },
+        tabBarLabelStyle: {
+          ...typography.captionSmall,
+          fontWeight: '600',
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <TabIcon color={color} size={size} name="home" />
+          ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="checklist"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Checklist',
+          tabBarIcon: ({ color, size }) => (
+            <TabIcon color={color} size={size} name="checklist" />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="insights"
+        options={{
+          title: 'Insights',
+          tabBarIcon: ({ color, size }) => (
+            <TabIcon color={color} size={size} name="insights" />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color, size }) => (
+            <TabIcon color={color} size={size} name="settings" />
+          ),
         }}
       />
     </Tabs>
   );
 }
+
+function TabIcon({ color, size, name }: { color: string; size: number; name: string }) {
+  let iconText = '●';
+  if (name === 'home') iconText = '🏠';
+  else if (name === 'checklist') iconText = '✓';
+  else if (name === 'insights') iconText = '📊';
+  else if (name === 'settings') iconText = '⚙️';
+  
+  return (
+    <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
+      <Text style={{ fontSize: size * 0.6, color }}>{iconText}</Text>
+    </View>
+  );
+}
+
+import { Text } from 'react-native';
