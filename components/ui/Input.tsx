@@ -19,7 +19,7 @@ interface InputProps extends TextInputProps {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   containerStyle?: ViewStyle;
-  type?: 'text' | 'password' | 'phone';
+  type?: 'text' | 'password' | 'phone' | 'email';
   countryCode?: string;
 }
 
@@ -44,6 +44,7 @@ export const Input: React.FC<InputProps> = React.memo(
 
     const isPassword = type === 'password';
     const isPhone = type === 'phone';
+    const isEmail = type === 'email';
 
     return (
       <View style={[styles.container, containerStyle]}>
@@ -59,6 +60,13 @@ export const Input: React.FC<InputProps> = React.memo(
           {isPhone && (
             <View style={styles.countryCodeContainer}>
               <Text style={styles.countryCode}>{countryCode}</Text>
+            </View>
+          )}
+
+          {isEmail && (
+            <View style={styles.countryCodeContainer}>
+              {/* <Text style={styles.countryCode}>@</Text> */}
+              <Ionicons name="mail" size={24} color={colors.primary} />
             </View>
           )}
 
@@ -114,14 +122,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.inputBackground,
     borderWidth: 1,
-    borderColor: colors.inputBorder,
+    borderColor: '#398a39ff',
     borderRadius: borderRadius.md,
-    height: 56,
-    paddingHorizontal: spacing.md,
+    height: 54,
+    paddingHorizontal: spacing.sm,
+    overflow: 'hidden',
+    marginBottom: spacing.xs,
   },
 
   inputContainerFocused: {
-    borderColor: colors.inputFocusBorder,
+    borderColor: '#398a39ff',
     borderWidth: 2,
   },
 
@@ -133,7 +143,6 @@ const styles = StyleSheet.create({
     flex: 1,
     ...typography.body,
     color: colors.textPrimary,
-    paddingVertical: 0,
   },
 
   phoneInput: {
@@ -143,7 +152,7 @@ const styles = StyleSheet.create({
   countryCodeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingRight: spacing.sm,
+    paddingRight: spacing.xs,
     borderRightWidth: 1,
     borderRightColor: colors.border,
   },

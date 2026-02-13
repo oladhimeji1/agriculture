@@ -9,6 +9,7 @@ export interface SignUpData {
   farmName: string;
   phoneNumber: string;
   password: string;
+  email: string;
 }
 
 export interface User {
