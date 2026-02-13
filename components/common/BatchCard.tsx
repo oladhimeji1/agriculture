@@ -1,35 +1,44 @@
+import { Image } from 'expo-image';
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ViewStyle } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
+import images from '../../assets/home/1152.jpg';
 import { colors } from '../../constants/colors';
-import { spacing, borderRadius } from '../../constants/spacing';
+import { borderRadius, spacing } from '../../constants/spacing';
 import { typography } from '../../constants/typography';
 import type { Batch } from '../../types';
 
 interface BatchCardProps {
   batch: Batch;
-  onPress?: () => void;
+  // onPress?: () => void;
   onDetailsPress?: () => void;
   containerStyle?: ViewStyle;
 }
 
 export const BatchCard: React.FC<BatchCardProps> = React.memo(
-  ({ batch, onPress, onDetailsPress, containerStyle }) => {
+  ({ batch, onDetailsPress, containerStyle }) => {
     const healthPercentage = ((batch.birdsLive / batch.numberOfBirds) * 100).toFixed(0);
 
     return (
       <TouchableOpacity
         style={[styles.container, containerStyle]}
-        onPress={onPress}
+        onPress={onDetailsPress}
         activeOpacity={0.7}
-        disabled={!onPress}
       >
         {/* Image */}
         <View style={styles.imageContainer}>
           <View style={styles.imagePlaceholder}>
-            <Text style={styles.imageEmoji}>🐔</Text>
+            <Image
+              source={images}
+              style={styles.image}
+              contentFit="cover"
+              transition={300}
+            />
           </View>
           <View style={styles.statusBadge}>
-            <Text style={styles.statusText}>ACTIVE BATCH</Text>
+            <Text style={styles.statusText}>{batch.status.toUpperCase()}</Text>
+          </View>
+          <View style={styles.statusBadge2}>
+            <Text style={styles.statusText}>{batch.createdAt.toString()}</Text>
           </View>
         </View>
 
@@ -47,20 +56,25 @@ export const BatchCard: React.FC<BatchCardProps> = React.memo(
             </Text>
           </View>
 
+          <View style={styles.infoRow2}>
+            <Text style={styles.ageText}>Mortality: {batch.mortality}</Text>
+            <Text style={styles.ageText}>{healthPercentage}%</Text>
+          </View>
+
           {/* Progress Bar */}
           <View style={styles.progressContainer}>
             <View style={styles.progressBar}>
               <View
                 style={[
                   styles.progressFill,
-                  { width: `${healthPercentage}%` },
+                  { width: `${healthPercentage}%` as any },
                 ]}
               />
             </View>
           </View>
 
           {/* Details Button */}
-          {onDetailsPress && (
+          {/* {onDetailsPress && (
             <TouchableOpacity
               style={styles.detailsButton}
               onPress={onDetailsPress}
@@ -68,7 +82,7 @@ export const BatchCard: React.FC<BatchCardProps> = React.memo(
             >
               <Text style={styles.detailsButtonText}>Details</Text>
             </TouchableOpacity>
-          )}
+          )} */}
         </View>
       </TouchableOpacity>
     );
@@ -88,12 +102,18 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    cursor: 'pointer',
   },
 
   imageContainer: {
     position: 'relative',
-    height: 180,
+    height: 150,
     backgroundColor: colors.gray100,
+  },
+
+  image: {
+    width: '100%',
+    height: '100%',
   },
 
   imagePlaceholder: {
@@ -117,15 +137,25 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.xs,
   },
 
+  statusBadge2: {
+    position: 'absolute',
+    top: spacing.md,
+    right: spacing.md,
+    backgroundColor: colors.success,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: borderRadius.xs,
+  },
+
   statusText: {
     ...typography.captionSmall,
-    color: colors.black,
+    color: colors.white,
     fontWeight: '700',
     letterSpacing: 0.5,
   },
 
   content: {
-    padding: spacing.md,
+    padding: spacing.sm,
   },
 
   title: {
@@ -140,8 +170,15 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
 
+  infoRow2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: spacing.md,
+    justifyContent: 'space-between',
+  },
+
   ageText: {
-    ...typography.bodySmall,
+    ...typography.caption,
     color: colors.textSecondary,
   },
 
@@ -163,7 +200,7 @@ const styles = StyleSheet.create({
   },
 
   progressBar: {
-    height: 8,
+    height: 5,
     backgroundColor: colors.gray200,
     borderRadius: borderRadius.xs,
     overflow: 'hidden',

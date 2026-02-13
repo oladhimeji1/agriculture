@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, ViewStyle } from 'react-native';
+import { StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { colors } from '../../constants/colors';
-import { spacing, borderRadius } from '../../constants/spacing';
+import { borderRadius, spacing } from '../../constants/spacing';
 import { typography } from '../../constants/typography';
 
 type AlertType = 'critical' | 'weather' | 'info';
@@ -20,7 +20,7 @@ export const AlertCard: React.FC<AlertCardProps> = React.memo(
     return (
       <View style={[styles.container, { backgroundColor: alertConfig.bgColor }, containerStyle]}>
         <View style={styles.header}>
-          <View style={[styles.iconContainer, { backgroundColor: alertConfig.iconBgColor }]}>
+          <View style={[styles.iconContainer]}>
             <Text style={styles.icon}>{alertConfig.icon}</Text>
           </View>
           <View style={styles.content}>
@@ -68,7 +68,7 @@ function getAlertConfig(type: AlertType) {
 const styles = StyleSheet.create({
   container: {
     borderRadius: borderRadius.md,
-    padding: spacing.md,
+    padding: spacing.sm,
     marginBottom: spacing.md,
   },
 
@@ -78,16 +78,17 @@ const styles = StyleSheet.create({
   },
 
   iconContainer: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.sm,
+    backgroundColor: 'white',
   },
 
   icon: {
-    fontSize: 18,
+    fontSize: 12,
   },
 
   content: {

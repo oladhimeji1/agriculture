@@ -1,7 +1,7 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, View, ViewStyle } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { colors } from '../../constants/colors';
-import { spacing, borderRadius } from '../../constants/spacing';
+import { borderRadius, spacing } from '../../constants/spacing';
 import { typography } from '../../constants/typography';
 
 interface QuickActionButtonProps {
@@ -9,21 +9,20 @@ interface QuickActionButtonProps {
   label: string;
   onPress: () => void;
   variant?: 'default' | 'danger';
-  containerStyle?: ViewStyle;
 }
 
 export const QuickActionButton: React.FC<QuickActionButtonProps> = React.memo(
-  ({ icon, label, onPress, variant = 'default', containerStyle }) => {
+  ({ icon, label, onPress, variant = 'default' }) => {
     const iconBgColor = variant === 'danger' ? colors.errorLight : colors.primaryLight;
-    const iconColor = variant === 'danger' ? colors.error : colors.primary;
+    // const iconColor = variant === 'danger' ? colors.error : colors.primary;
 
     return (
       <TouchableOpacity
-        style={[styles.container, containerStyle]}
+        style={[styles.container, { backgroundColor: iconBgColor }]}
         onPress={onPress}
         activeOpacity={0.7}
       >
-        <View style={[styles.iconContainer, { backgroundColor: iconBgColor }]}>
+        <View style={[styles.iconContainer]}>
           <Text style={styles.icon}>{icon}</Text>
         </View>
         <Text style={styles.label} numberOfLines={2}>
@@ -52,16 +51,16 @@ const styles = StyleSheet.create({
   },
 
   iconContainer: {
-    width: 48,
-    height: 48,
+    width: 45,
+    height: 45,
     borderRadius: borderRadius.md,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: spacing.sm,
+    marginBottom: spacing.xs,
   },
 
   icon: {
-    fontSize: 24,
+    fontSize: 20,
   },
 
   label: {

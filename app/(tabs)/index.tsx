@@ -23,7 +23,7 @@ const mockBatch: Batch = {
   name: 'Broilers Batch A',
   birdType: 'broilers',
   numberOfBirds: 500,
-  birdsLive: 492,
+  birdsLive: 192,
   startDate: '2025-10-01',
   currentAge: 22,
   mortality: 8,
@@ -250,12 +250,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
 
   sectionTitle: {
     ...typography.h6,
     color: colors.textPrimary,
+    marginBottom: spacing.sm,
   },
 
   viewAllText: {
