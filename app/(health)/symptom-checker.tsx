@@ -75,7 +75,7 @@ export default function SymptomCheckerScreen() {
   const [showResults, setShowResults] = useState(false);
 
   const handleBack = useCallback(() => {
-    router.back();
+    router.replace('/(tabs)');
   }, []);
 
   const toggleSymptom = useCallback((symptomId: Symptom) => {

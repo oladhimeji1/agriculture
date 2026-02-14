@@ -105,7 +105,7 @@ export default function WelcomeScreen() {
     )
   ).current;
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<number | null>(null);
 
   const isLastSlide = currentIndex === slides.length - 1;
   const currentSlide = slides[currentIndex];
@@ -179,11 +179,11 @@ export default function WelcomeScreen() {
   }, [currentIndex]);
 
   const handleSkip = useCallback(() => {
-    router.push('/(auth)/signup');
+    router.push('/(auth)/login');
   }, []);
 
   const handleGetStarted = useCallback(() => {
-    router.push('/(auth)/signup');
+    router.push('/(auth)/login');
   }, []);
 
   // Auto-advance timer

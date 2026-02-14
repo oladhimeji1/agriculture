@@ -64,7 +64,7 @@ export default function LoginScreen() {
       // TODO: Implement actual API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      console.log('Login successful', formData);
+      // console.log('Login successful', formData);
 
       // Navigate to main app
       router.replace('/(tabs)');

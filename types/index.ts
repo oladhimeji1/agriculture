@@ -60,3 +60,13 @@ export interface ApiResponse<T = any> {
   message?: string;
   error?: string;
 }
+
+export interface Task {
+  id: string;
+  title: string;
+  description?: string;
+  time?: string;
+  priority?: 'high' | 'routine';
+  status: 'done' | 'pending';
+  image?: string;
+}

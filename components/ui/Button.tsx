@@ -130,13 +130,13 @@ const styles = StyleSheet.create({
     ...typography.button,
   },
   primaryText: {
-    color: colors.textOnPrimary,
+    color: colors.white,
   },
   secondaryText: {
-    color: colors.textPrimary,
+    color: colors.white,
   },
   outlineText: {
-    color: colors.textPrimary,
+    color: colors.white,
   },
 
   largeText: {

@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
@@ -87,11 +88,11 @@ export default function ProfitLossSummaryScreen() {
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       {/* Header */}
       <View style={styles.header}>
-        <IconButton
+        {/* <IconButton
           icon={<Text style={styles.backIcon}>←</Text>}
           onPress={handleBack}
           variant="ghost"
-        />
+        /> */}
         <Text style={styles.headerTitle}>Profit & Loss Summary</Text>
         <IconButton
           icon={<Text style={styles.shareIcon}>⤴</Text>}
@@ -124,14 +125,14 @@ export default function ProfitLossSummaryScreen() {
           <Text style={styles.profitLabel}>NET PROFIT ACHIEVED</Text>
           <Text style={styles.profitAmount}>₦ 450,000.00</Text>
           <View style={styles.trendBadge}>
-            <Text style={styles.trendIcon}>📈</Text>
+            <Ionicons name="trending-up" size={16} color={colors.primary} />
             <Text style={styles.trendText}>+12.5% vs Batch #03</Text>
           </View>
           <Text style={styles.profitSubtext}>Projected based on current market rates</Text>
 
           {/* View Transactions Button */}
           <Button
-            title="📊 View All Transactions"
+            title="View All Transactions"
             onPress={handleViewTransactions}
             variant="secondary"
             fullWidth
@@ -144,14 +145,14 @@ export default function ProfitLossSummaryScreen() {
           <View style={styles.incomeExpenseRow}>
             <View style={styles.incomeCard}>
               <View style={styles.incomeIconContainer}>
-                <Text style={styles.incomeIcon}>💵</Text>
+                <Ionicons name="cash" size={16} color={colors.primary} />
               </View>
               <Text style={styles.incomeLabel}>TOTAL INCOME</Text>
               <Text style={styles.incomeAmount}>₦ 1,250,000</Text>
             </View>
             <View style={styles.expenseCard}>
               <View style={styles.expenseIconContainer}>
-                <Text style={styles.expenseIcon}>🛒</Text>
+                <Ionicons name="cart" size={16} color={colors.primary} />
               </View>
               <Text style={styles.expenseLabel}>TOTAL EXPENSES</Text>
               <Text style={styles.expenseAmount}>₦ 800,000</Text>
@@ -193,7 +194,9 @@ export default function ProfitLossSummaryScreen() {
         {/* Batch Insights */}
         <View style={styles.section}>
           <View style={styles.insightsHeader}>
-            <Text style={styles.sectionTitle}>🔍 Batch Insights</Text>
+            <View style={styles.sectionTitle}>
+              <Ionicons name="information-circle" size={20} color={colors.textPrimary} />
+              <Text style={styles.sectionTitleText}>Batch Insights</Text></View>
           </View>
           <View style={styles.insightsCard}>
             {mockInsights.map((insight, index) => (
@@ -268,17 +271,17 @@ const styles = StyleSheet.create({
   },
 
   scrollContent: {
-    padding: spacing.lg,
+    padding: spacing.md,
+    paddingTop: spacing.sm,
   },
 
   batchInfo: {
-    marginBottom: spacing.lg,
+    marginBottom: spacing.md,
   },
 
   batchHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: spacing.xs,
   },
 
   batchName: {
@@ -301,17 +304,17 @@ const styles = StyleSheet.create({
   },
 
   batchDates: {
-    ...typography.bodySmall,
+    ...typography.caption,
     color: colors.textSecondary,
   },
 
   profitCard: {
     backgroundColor: colors.primaryLight,
     borderRadius: borderRadius.lg,
-    padding: spacing.xl,
+    padding: spacing.md,
     alignItems: 'center',
     marginBottom: spacing.lg,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.primary,
   },
 
@@ -372,6 +375,8 @@ const styles = StyleSheet.create({
 
   transactionsButton: {
     marginTop: spacing.sm,
+    backgroundColor: colors.primary,
+    color: colors.white,
   },
 
   section: {
@@ -379,9 +384,18 @@ const styles = StyleSheet.create({
   },
 
   sectionTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+
+  sectionTitleText: {
     ...typography.h6,
     color: colors.textPrimary,
-    marginBottom: spacing.md,
+    // marginBottom: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: spacing.sm,
   },
 
   incomeExpenseRow: {
@@ -393,7 +407,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
     borderRadius: borderRadius.md,
-    padding: spacing.md,
+    padding: spacing.sm,
     alignItems: 'center',
   },
 
@@ -426,7 +440,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
     borderRadius: borderRadius.md,
-    padding: spacing.md,
+    padding: spacing.sm,
     alignItems: 'center',
   },
 
@@ -550,9 +564,12 @@ const styles = StyleSheet.create({
 
   ctaSection: {
     marginTop: spacing.lg,
+    flexDirection: 'row',
+    gap: spacing.md,
+    justifyContent: 'space-between',
   },
 
   exportButton: {
-    marginBottom: spacing.md,
+    flex: 1,
   },
 });

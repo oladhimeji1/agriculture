@@ -1,3 +1,6 @@
+import { dailyTasks } from '@/mock/mock';
+import { Task } from '@/types';
+import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
@@ -13,57 +16,10 @@ import { colors } from '../../constants/colors';
 import { borderRadius, spacing } from '../../constants/spacing';
 import { typography } from '../../constants/typography';
 
-interface Task {
-  id: string;
-  title: string;
-  description?: string;
-  time?: string;
-  priority?: 'high' | 'routine';
-  status: 'done' | 'pending';
-  image?: string;
-}
 
-const mockTasks: Task[] = [
-  {
-    id: '1',
-    title: 'Evening Feed - Batch A',
-    description: 'Distribute evening feed',
-    time: 'Yesterday, 6:00 PM',
-    priority: 'high',
-    status: 'pending',
-    image: '🪣',
-  },
-  {
-    id: '2',
-    title: 'Vitamin Supplements',
-    description: 'Add 2 scoops to main water tank',
-    time: '9:00 AM • HIGH PRIORITY',
-    priority: 'high',
-    status: 'pending',
-    image: '💊',
-  },
-  {
-    id: '3',
-    title: 'Clean Drinkers',
-    description: 'Completed at 7:45 AM',
-    time: '',
-    priority: 'routine',
-    status: 'done',
-    image: '🧹',
-  },
-  {
-    id: '4',
-    title: 'Morning Egg Collection',
-    description: 'Record total count in app',
-    time: '11:00 AM • ROUTINE',
-    priority: 'routine',
-    status: 'pending',
-    image: '🥚',
-  },
-];
 
 export default function DailyChecklistScreen() {
-  const [tasks, setTasks] = useState(mockTasks);
+  const [tasks, setTasks] = useState(dailyTasks);
   const [selectedBatch, setSelectedBatch] = useState('Broiler Batch A');
 
   const handleBack = useCallback(() => {
@@ -194,33 +150,52 @@ const TaskCard: React.FC<TaskCardProps> = React.memo(({ task, onMarkAsDone, onUn
   const isMissed = task.priority === 'high' && !isDone;
 
   return (
-    <View style={[styles.taskCard, isMissed && styles.taskCardMissed]}>
-      {isMissed && <View style={styles.overdueTag}>
-        <Text style={styles.overdueText}>OVERDUE</Text>
-      </View>}
+    <View style={[styles.taskCard, isMissed && styles.taskCardMissed, task.priority === 'high' && { backgroundColor: '#fff5f5' }]}>
+      {/* }
+
+      <View style={styles.tagContainer}>
+        <View style={styles.priorityTag}>
+          <Text style={styles.priorityText}>{task.priority === 'high' ? 'HIGH PRIORITY' : 'ROUTINE'}</Text>
+        </View>
+
+        <View style={styles.statusTag}>
+          <Text style={styles.statusText}>{task.status}</Text>
+        </View>
+      </View> */}
 
       <View style={styles.taskContent}>
         <View style={styles.taskImageContainer}>
-          <Text style={styles.taskImage}>{task.image}</Text>
+          <Image
+            source={task.image}
+            style={styles.taskImage}
+            contentFit="cover"
+            transition={300}
+          />
         </View>
         <View style={styles.taskInfo}>
           <Text style={[styles.taskTitle, isDone && styles.taskTitleDone]}>
             {task.title}
           </Text>
           <Text style={styles.taskDescription}>{task.description}</Text>
-          {task.time && <Text style={styles.taskTime}>{task.time}</Text>}
+          {task.time !== '' && <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+            <Text style={styles.taskTime}>{task.time}</Text> <Text style={[styles.priorityText, task.priority === 'high' && { color: colors.error }]}>• {task.priority === 'high' ? 'HIGH PRIORITY' : 'ROUTINE'}</Text>
+            {isMissed && <View>
+              <Text style={styles.overdueText}>• OVERDUE</Text>
+            </View>}
+          </View>}
+
+          {isDone ? (
+            <TouchableOpacity style={styles.undoButton} onPress={onUndo}>
+              <Text style={styles.undoButtonText}>↻ Undo</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.markDoneButton} onPress={onMarkAsDone}>
+              <Text style={styles.markDoneButtonText}>✓ Mark as Done</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
 
-      {isDone ? (
-        <TouchableOpacity style={styles.undoButton} onPress={onUndo}>
-          <Text style={styles.undoButtonText}>↻ Undo</Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity style={styles.markDoneButton} onPress={onMarkAsDone}>
-          <Text style={styles.markDoneButtonText}>✓ Mark as Done</Text>
-        </TouchableOpacity>
-      )}
     </View>
   );
 });
@@ -263,7 +238,8 @@ const styles = StyleSheet.create({
   },
 
   scrollContent: {
-    padding: spacing.lg,
+    padding: spacing.md,
+    paddingTop: spacing.sm,
   },
 
   batchHeader: {
@@ -320,12 +296,12 @@ const styles = StyleSheet.create({
   },
 
   progressPercentage: {
-    ...typography.h4,
+    ...typography.h6,
     color: colors.primary,
   },
 
   progressBar: {
-    height: 8,
+    height: 5,
     backgroundColor: colors.gray200,
     borderRadius: borderRadius.xs,
     overflow: 'hidden',
@@ -346,7 +322,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: colors.errorLight,
     borderRadius: borderRadius.md,
-    padding: spacing.md,
+    padding: spacing.sm,
     marginBottom: spacing.md,
   },
 
@@ -375,7 +351,7 @@ const styles = StyleSheet.create({
   },
 
   alertMessage: {
-    ...typography.bodySmall,
+    ...typography.captionSmall,
     color: colors.textPrimary,
   },
 
@@ -392,7 +368,7 @@ const styles = StyleSheet.create({
   taskCard: {
     backgroundColor: colors.white,
     borderRadius: borderRadius.md,
-    padding: spacing.md,
+    padding: spacing.sm,
     marginBottom: spacing.md,
     borderWidth: 1,
     borderColor: colors.borderLight,
@@ -400,7 +376,14 @@ const styles = StyleSheet.create({
 
   taskCardMissed: {
     borderColor: colors.error,
-    borderWidth: 2,
+    borderWidth: 1,
+  },
+
+  tagContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: spacing.sm,
   },
 
   overdueTag: {
@@ -412,20 +395,52 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
 
-  overdueText: {
+  priorityTag: {
+    backgroundColor: colors.warning,
+    alignSelf: 'flex-start',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 2,
+    borderRadius: borderRadius.xs,
+    marginBottom: spacing.sm,
+  },
+
+  priorityText: {
     ...typography.captionSmall,
     color: colors.white,
     fontWeight: '700',
   },
 
+  statusTag: {
+    backgroundColor: colors.success,
+    alignSelf: 'flex-start',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 2,
+    borderRadius: borderRadius.xs,
+    marginBottom: spacing.sm,
+  },
+
+  statusText: {
+    ...typography.captionSmall,
+    color: colors.white,
+    fontWeight: '700',
+  },
+
+  overdueText: {
+    ...typography.captionSmall,
+    color: colors.error,
+    fontWeight: '700',
+  },
+
   taskContent: {
     flexDirection: 'row',
-    marginBottom: spacing.md,
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    // marginBottom: spacing.md,
   },
 
   taskImageContainer: {
-    width: 60,
-    height: 60,
+    width: 70,
+    height: 70,
     backgroundColor: colors.gray100,
     borderRadius: borderRadius.sm,
     alignItems: 'center',
@@ -434,7 +449,11 @@ const styles = StyleSheet.create({
   },
 
   taskImage: {
-    fontSize: 32,
+    width: '100%',
+    height: '100%',
+    borderRadius: borderRadius.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   taskInfo: {
@@ -466,13 +485,14 @@ const styles = StyleSheet.create({
   markDoneButton: {
     backgroundColor: colors.primary,
     paddingVertical: spacing.sm,
-    borderRadius: borderRadius.md,
+    borderRadius: borderRadius.sm,
     alignItems: 'center',
+    marginTop: spacing.sm,
   },
 
   markDoneButtonText: {
     ...typography.button,
-    color: colors.black,
+    color: colors.white,
     fontSize: 14,
   },
 

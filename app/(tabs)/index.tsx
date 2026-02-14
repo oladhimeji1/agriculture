@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
   RefreshControl,
@@ -15,29 +16,9 @@ import { TaskItem } from '../../components/common/TaskItem';
 import { colors } from '../../constants/colors';
 import { spacing } from '../../constants/spacing';
 import { typography } from '../../constants/typography';
-import type { Batch } from '../../types';
+import { mockBatch, mockTasks } from '../../mock/mock';
 
-// Mock data - replace with actual API data
-const mockBatch: Batch = {
-  id: '1',
-  name: 'Broilers Batch A',
-  birdType: 'broilers',
-  numberOfBirds: 500,
-  birdsLive: 192,
-  startDate: '2025-10-01',
-  currentAge: 22,
-  mortality: 8,
-  status: 'active',
-  createdAt: '2025-10-01',
-  updatedAt: '2025-10-23',
-};
 
-const mockTasks = [
-  { id: '1', title: 'Refill water troughs', status: 'done' as const },
-  { id: '2', title: 'Morning feed distribution', status: 'pending' as const },
-  { id: '3', title: 'Check brooding temperature', status: 'pending' as const },
-  { id: '4', title: 'Biosecurity foot dip refresh', status: 'pending' as const },
-];
 
 export default function DashboardScreen() {
   const [refreshing, setRefreshing] = useState(false);
@@ -61,8 +42,7 @@ export default function DashboardScreen() {
   }, []);
 
   const handleAddExpense = useCallback(() => {
-    // TODO: Navigate to add expense modal/screen
-    console.log('Add expense pressed');
+    router.replace('/(expenses)/add-expense');
   }, []);
 
   const handleLogMortality = useCallback(() => {
@@ -76,8 +56,8 @@ export default function DashboardScreen() {
   }, []);
 
   const handleBatchDetails = useCallback(() => {
-    // TODO: Navigate to batch details
-    console.log('Batch details pressed');
+    // router.replace('/(expenses)/');
+    router.replace('/(health)/symptom-checker');
   }, []);
 
   const handleViewAllTasks = useCallback(() => {

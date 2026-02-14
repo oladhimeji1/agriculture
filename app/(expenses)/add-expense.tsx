@@ -43,7 +43,8 @@ export default function AddExpenseScreen() {
   const [loading, setLoading] = useState(false);
 
   const handleClose = useCallback(() => {
-    router.back();
+    // router.back();
+    router.replace('/(tabs)');
   }, []);
 
   const handleHelp = useCallback(() => {

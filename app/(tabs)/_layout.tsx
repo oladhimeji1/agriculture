@@ -34,9 +34,9 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="checklist"
+        name="tasks"
         options={{
-          title: 'Checklist',
+          title: 'Tasks',
           tabBarIcon: ({ color, size }) => (
             <TabIcon color={color} size={size} name="checklist" />
           ),
@@ -65,12 +65,12 @@ export default function TabsLayout() {
 }
 
 function TabIcon({ color, size, name }: { color: string; size: number; name: string }) {
-  let iconText = '●';
-  if (name === 'home') iconText = '🏠';
-  else if (name === 'checklist') iconText = '✓';
-  else if (name === 'insights') iconText = '📊';
-  else if (name === 'settings') iconText = '⚙️';
-  
+  let iconText: string | React.ReactNode = '●';
+  if (name === 'home') iconText = <Ionicons name="home-outline" size={size} color={color} />;
+  else if (name === 'checklist') iconText = <Ionicons name="checkbox-outline" size={size} color={color} />;
+  else if (name === 'insights') iconText = <Ionicons name="arrow-up-outline" size={size} color={color} />;
+  else if (name === 'settings') iconText = <Ionicons name="settings-outline" size={size} color={color} />;
+
   return (
     <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
       <Text style={{ fontSize: size * 0.6, color }}>{iconText}</Text>
@@ -78,4 +78,6 @@ function TabIcon({ color, size, name }: { color: string; size: number; name: str
   );
 }
 
+import { Ionicons } from '@expo/vector-icons';
 import { Text } from 'react-native';
+
