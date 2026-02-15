@@ -76,7 +76,7 @@ export const Input: React.FC<InputProps> = React.memo(
             style={[styles.input, isPhone && styles.phoneInput]}
             placeholderTextColor={colors.inputPlaceholder}
             secureTextEntry={isPassword && !isPasswordVisible}
-            keyboardType={isPhone ? 'phone-pad' : 'default'}
+            keyboardType={isEmail ? 'email-address' : 'default'}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             {...textInputProps}

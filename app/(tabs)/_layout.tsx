@@ -68,7 +68,7 @@ function TabIcon({ color, size, name }: { color: string; size: number; name: str
   let iconText: string | React.ReactNode = '●';
   if (name === 'home') iconText = <Ionicons name="home-outline" size={size} color={color} />;
   else if (name === 'checklist') iconText = <Ionicons name="checkbox-outline" size={size} color={color} />;
-  else if (name === 'insights') iconText = <Ionicons name="arrow-up-outline" size={size} color={color} />;
+  else if (name === 'insights') iconText = <Ionicons name="bar-chart" size={size} color={color} />;
   else if (name === 'settings') iconText = <Ionicons name="settings-outline" size={size} color={color} />;
 
   return (

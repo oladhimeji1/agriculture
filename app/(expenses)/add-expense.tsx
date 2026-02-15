@@ -22,7 +22,7 @@ type ExpenseCategory = 'chicks' | 'feed' | 'drugs' | 'labor' | 'utilities' | 'mi
 interface CategoryOption {
   id: ExpenseCategory;
   label: string;
-  icon: string;
+  icon: React.ReactNode;
 }
 
 const categories: CategoryOption[] = [
@@ -142,7 +142,11 @@ export default function AddExpenseScreen() {
                   onPress={() => setCategory(cat.id)}
                   activeOpacity={0.7}
                 >
-                  <Text style={styles.categoryIcon}>{cat.icon}</Text>
+                  {typeof cat.icon === 'string' ? (
+                    <Text style={styles.categoryIcon}>{cat.icon}</Text>
+                  ) : (
+                    <View style={styles.categoryIconContainer}>{cat.icon}</View>
+                  )}
                   <Text
                     style={[
                       styles.categoryLabel,
@@ -314,6 +318,9 @@ const styles = StyleSheet.create({
 
   categoryIcon: {
     fontSize: 32,
+    marginBottom: spacing.xs,
+  },
+  categoryIconContainer: {
     marginBottom: spacing.xs,
   },
 
