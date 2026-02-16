@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   },
 
   progressContainer: {
-    marginVertical: spacing.md,
+    marginTop: spacing.md,
   },
 
   progressBar: {

@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
@@ -7,12 +8,10 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button } from '../../components/ui/Button';
-import { IconButton } from '../../components/ui/IconButton';
-import { Input } from '../../components/ui/Input';
+import { Button, DatePicker, IconButton, Input, Select } from '../../components/ui';
 import { colors } from '../../constants/colors';
 import { borderRadius, spacing } from '../../constants/spacing';
 import { typography } from '../../constants/typography';
@@ -26,12 +25,18 @@ interface CategoryOption {
 }
 
 const categories: CategoryOption[] = [
-  { id: 'chicks', label: 'Chicks', icon: '🐣' },
-  { id: 'feed', label: 'Feed', icon: '🌾' },
-  { id: 'drugs', label: 'Drugs', icon: '💊' },
-  { id: 'labor', label: 'Labor', icon: '👷' },
-  { id: 'utilities', label: 'Utilities', icon: '⚡' },
-  { id: 'misc', label: 'Misc', icon: '📦' },
+  { id: 'chicks', label: 'Chicks', icon: <Ionicons name="paw-outline" size={24} color="black" /> },
+  { id: 'feed', label: 'Feed', icon: <Ionicons name="nutrition-outline" size={24} color="black" /> },
+  { id: 'drugs', label: 'Drugs', icon: <Ionicons name="medkit-outline" size={24} color="black" /> },
+  { id: 'labor', label: 'Labor', icon: <Ionicons name="people-outline" size={24} color="black" /> },
+  { id: 'utilities', label: 'Utilities', icon: <Ionicons name="flash-outline" size={24} color="black" /> },
+  { id: 'misc', label: 'Misc', icon: <Ionicons name="ellipsis-horizontal-outline" size={24} color="black" /> },
+];
+
+const batchOptions = [
+  { label: 'Batch A - Broilers (Oct 2025)', value: 'Batch A - Broilers (Oct 2025)' },
+  { label: 'Batch B - Layers (Nov 2025)', value: 'Batch B - Layers (Nov 2025)' },
+  { label: 'Batch C - Broilers (Jan 2026)', value: 'Batch C - Broilers (Jan 2026)' },
 ];
 
 export default function AddExpenseScreen() {
@@ -71,15 +76,7 @@ export default function AddExpenseScreen() {
     }
   }, [amount, category, selectedBatch, date, notes]);
 
-  const handleBatchSelect = useCallback(() => {
-    // TODO: Show batch picker
-    console.log('Select batch pressed');
-  }, []);
 
-  const handleDateSelect = useCallback(() => {
-    // TODO: Show date picker
-    console.log('Select date pressed');
-  }, []);
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
@@ -161,22 +158,19 @@ export default function AddExpenseScreen() {
           </View>
 
           {/* Select Batch */}
-          <View style={styles.section}>
-            <Text style={styles.sectionLabel}>SELECT BATCH</Text>
-            <TouchableOpacity style={styles.selectButton} onPress={handleBatchSelect}>
-              <Text style={styles.selectButtonText}>{selectedBatch}</Text>
-              <Text style={styles.selectButtonIcon}>▼</Text>
-            </TouchableOpacity>
-          </View>
+          <Select
+            label="SELECT BATCH"
+            value={selectedBatch}
+            options={batchOptions}
+            onSelect={setSelectedBatch}
+          />
 
           {/* Date */}
-          <View style={styles.section}>
-            <Text style={styles.sectionLabel}>DATE</Text>
-            <TouchableOpacity style={styles.dateButton} onPress={handleDateSelect}>
-              <Text style={styles.dateButtonText}>{date}</Text>
-              <Text style={styles.dateButtonIcon}>📅</Text>
-            </TouchableOpacity>
-          </View>
+          <DatePicker
+            label="DATE"
+            value={date}
+            onChange={setDate}
+          />
 
           {/* Notes */}
           <View style={styles.section}>
@@ -291,6 +285,8 @@ const styles = StyleSheet.create({
   amountInput: {
     flex: 1,
     marginBottom: 0,
+    borderWidth: 0,
+    outline: 'none',
   },
 
   categoriesGrid: {
@@ -334,47 +330,7 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
   },
 
-  selectButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.md,
-    borderWidth: 1,
-    borderColor: colors.inputBorder,
-    padding: spacing.md,
-  },
 
-  selectButtonText: {
-    ...typography.body,
-    color: colors.textPrimary,
-    flex: 1,
-  },
-
-  selectButtonIcon: {
-    ...typography.body,
-    color: colors.textSecondary,
-  },
-
-  dateButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.md,
-    borderWidth: 1,
-    borderColor: colors.inputBorder,
-    padding: spacing.md,
-  },
-
-  dateButtonText: {
-    ...typography.body,
-    color: colors.textPrimary,
-  },
-
-  dateButtonIcon: {
-    fontSize: 20,
-  },
 
   notesInput: {
     marginBottom: 0,

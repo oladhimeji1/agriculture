@@ -42,11 +42,32 @@
           }
         }
       ],
-      "expo-video"
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification_icon.png",
+          "color": "#ffffff",
+          "defaultChannel": "default",
+          "sounds": [
+            "./assets/images/notification_sound.wav",
+            "./assets/images/notification_sound_other.wav"
+          ],
+          "enableBackgroundRemoteNotifications": false
+        }
+      ],
+      "expo-video",
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "d3c4498d-a871-47ae-bd0b-2c1e300b0af1"
+      }
+    },
+    "owner": "oladhimeji"
   }
 }

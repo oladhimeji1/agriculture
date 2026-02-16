@@ -42,15 +42,15 @@ export default function LoginScreen() {
   const validateForm = useCallback(() => {
     const newErrors: Partial<Record<keyof LoginData, string>> = {};
 
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (formData.email.length < 10) {
-      newErrors.email = 'Enter a valid email';
-    }
+    // if (!formData.email.trim()) {
+    //   newErrors.email = 'Email is required';
+    // } else if (formData.email.length < 10) {
+    //   newErrors.email = 'Enter a valid email';
+    // }
 
-    if (!formData.password.trim()) {
-      newErrors.password = 'Password is required';
-    }
+    // if (!formData.password.trim()) {
+    //   newErrors.password = 'Password is required';
+    // }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

@@ -1,5 +1,4 @@
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
   ScrollView,
@@ -61,18 +60,12 @@ const mockInsights: InsightItem[] = [
 export default function ProfitLossSummaryScreen() {
   const [showTransactions, setShowTransactions] = useState(false);
 
-  const handleBack = useCallback(() => {
-    router.back();
-  }, []);
-
   const handleShare = useCallback(() => {
-    // TODO: Implement share functionality
-    console.log('Share report pressed');
+
   }, []);
 
   const handleExport = useCallback(() => {
-    // TODO: Implement export functionality
-    console.log('Export report pressed');
+
   }, []);
 
   const handleNewEntry = useCallback(() => {
@@ -88,11 +81,6 @@ export default function ProfitLossSummaryScreen() {
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       {/* Header */}
       <View style={styles.header}>
-        {/* <IconButton
-          icon={<Text style={styles.backIcon}>←</Text>}
-          onPress={handleBack}
-          variant="ghost"
-        /> */}
         <Text style={styles.headerTitle}>Profit & Loss Summary</Text>
         <IconButton
           icon={<Text style={styles.shareIcon}>⤴</Text>}
@@ -245,7 +233,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
+    paddingVertical: spacing.md,
     borderBottomWidth: 1,
     borderBottomColor: colors.borderLight,
     backgroundColor: colors.white,

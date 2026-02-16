@@ -1,7 +1,6 @@
 import { dailyTasks } from '@/mock/mock';
 import { Task } from '@/types';
 import { Image } from 'expo-image';
-import { router } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
   ScrollView,
@@ -11,7 +10,6 @@ import {
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { IconButton } from '../../components/ui/IconButton';
 import { colors } from '../../constants/colors';
 import { borderRadius, spacing } from '../../constants/spacing';
 import { typography } from '../../constants/typography';
@@ -22,9 +20,6 @@ export default function DailyChecklistScreen() {
   const [tasks, setTasks] = useState(dailyTasks);
   const [selectedBatch, setSelectedBatch] = useState('Broiler Batch A');
 
-  const handleBack = useCallback(() => {
-    router.back();
-  }, []);
 
   const handleSwitchBatch = useCallback(() => {
     // TODO: Show batch picker
@@ -57,11 +52,6 @@ export default function DailyChecklistScreen() {
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       {/* Header */}
       <View style={styles.header}>
-        <IconButton
-          icon={<Text style={styles.backIcon}>←</Text>}
-          onPress={handleBack}
-          variant="ghost"
-        />
         <Text style={styles.headerTitle}>Daily Checklist</Text>
         <View style={styles.headerPlaceholder} />
       </View>
@@ -177,12 +167,15 @@ const TaskCard: React.FC<TaskCardProps> = React.memo(({ task, onMarkAsDone, onUn
             {task.title}
           </Text>
           <Text style={styles.taskDescription}>{task.description}</Text>
-          {task.time !== '' && <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-            <Text style={styles.taskTime}>{task.time}</Text> <Text style={[styles.priorityText, task.priority === 'high' && { color: colors.error }]}>• {task.priority === 'high' ? 'HIGH PRIORITY' : 'ROUTINE'}</Text>
-            {isMissed && <View>
-              <Text style={styles.overdueText}>• OVERDUE</Text>
-            </View>}
-          </View>}
+          {task.time !== '' && (
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+              <Text style={styles.taskTime}>{task.time}</Text>
+              <Text style={[styles.priorityText, task.priority === 'high' && { color: colors.error }]}>
+                • {task.priority === 'high' ? 'HIGH PRIORITY' : 'ROUTINE'}
+              </Text>
+              {isMissed && <Text style={styles.overdueText}>• OVERDUE</Text>}
+            </View>
+          )}
 
           {isDone ? (
             <TouchableOpacity style={styles.undoButton} onPress={onUndo}>
@@ -213,7 +206,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
+    paddingVertical: spacing.md,
     borderBottomWidth: 1,
     borderBottomColor: colors.borderLight,
     backgroundColor: colors.white,
